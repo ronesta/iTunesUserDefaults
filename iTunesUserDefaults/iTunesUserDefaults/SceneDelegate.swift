@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         searchTabBarItem.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 16)], for: .normal)
         searchNavigationController.tabBarItem = searchTabBarItem
 
-        let historyViewController = SearchViewController()
+        let historyViewController = SearchHistoryViewController()
         let historyNavigationController = UINavigationController(rootViewController: historyViewController)
         let historyTabBarItem = UITabBarItem(title: "History",
                                              image: UIImage(systemName: "clock"),

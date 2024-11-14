@@ -14,6 +14,12 @@ final class ImageLoader {
 
     func loadImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
 
+        if let imageData = StorageManager.shared.loadImage(key: urlString),
+           let image = UIImage(data: imageData) {
+            completion(image)
+            return
+        }
+
         guard let url = URL(string: urlString) else {
             completion(nil)
             return
@@ -28,6 +34,7 @@ final class ImageLoader {
 
             if let data,
                let image = UIImage(data: data) {
+                StorageManager.shared.saveImage(data, key: urlString)
                 completion(image)
             } else {
                 completion(nil)
@@ -35,4 +42,3 @@ final class ImageLoader {
         }.resume()
     }
 }
-
