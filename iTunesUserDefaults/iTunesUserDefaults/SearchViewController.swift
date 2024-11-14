@@ -93,9 +93,9 @@ extension SearchViewController: UICollectionViewDataSource {
         }
 
         let album = albums[indexPath.item]
-        let UrlString = album.artworkUrl100
+        let urlString = album.artworkUrl100
 
-        ImageLoader.shared.loadImage(from: UrlString) { loadedImage in
+        ImageLoader.shared.loadImage(from: urlString) { loadedImage in
             DispatchQueue.main.async {
                 guard let cell = collectionView.cellForItem(at: indexPath) as? AlbumCollectionViewCell  else {
                     return

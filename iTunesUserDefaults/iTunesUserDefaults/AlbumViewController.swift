@@ -83,8 +83,8 @@ final class AlbumViewController: UIViewController {
             return
         }
 
-        let UrlString = album.artworkUrl100
-        ImageLoader.shared.loadImage(from: UrlString) { [weak self] loadedImage in
+        let urlString = album.artworkUrl100
+        ImageLoader.shared.loadImage(from: urlString) { [weak self] loadedImage in
             DispatchQueue.main.async {
                 self?.albumImageView.image = loadedImage
             }
@@ -95,4 +95,3 @@ final class AlbumViewController: UIViewController {
         collectionPriceLabel.text = "\(album.collectionPrice) $"
     }
 }
-
