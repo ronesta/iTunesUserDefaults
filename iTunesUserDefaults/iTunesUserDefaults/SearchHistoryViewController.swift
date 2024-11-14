@@ -22,6 +22,11 @@ class SearchHistoryViewController: UIViewController {
         setupViews()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateSearchHistory()
+    }
+
     private func setupNavigationBar() {
         title = "Search History"
     }
@@ -37,6 +42,11 @@ class SearchHistoryViewController: UIViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+
+    func updateSearchHistory() {
+        searchHistory = SearchHistoryManager.shared.getSearchHistory()
+        self.tableView.reloadData()
     }
 }
 
