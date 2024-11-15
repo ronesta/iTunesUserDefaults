@@ -28,7 +28,7 @@ class SearchHistoryViewController: UIViewController {
     }
 
     private func setupNavigationBar() {
-        title = "Search History"
+        title = "History"
     }
 
     private func setupViews() {

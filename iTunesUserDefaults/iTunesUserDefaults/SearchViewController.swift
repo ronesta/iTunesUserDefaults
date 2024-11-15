@@ -61,17 +61,23 @@ final class SearchViewController: UIViewController {
     }
 
     func searchAlbums(with term: String) {
+        if let savedAlbums = StorageManager.shared.loadAlbums(for: term) {
+            albums = savedAlbums
+            collectionView.reloadData()
+            return
+        }
+
         NetworkManager.shared.fetchAlbums(albumName: term) { [weak self] result in
             switch result {
             case .success(let albums):
-                self?.albums = albums.sorted { $0.collectionName < $1.collectionName }
-                print("Successfully loaded \(albums.count) albums.")
+                DispatchQueue.main.async {
+                    self?.albums = albums.sorted { $0.collectionName < $1.collectionName }
+                    self?.collectionView.reloadData()
+                    StorageManager.shared.saveAlbums(albums, for: term)
+                    print("Successfully loaded \(albums.count) albums.")
+                }
             case .failure(let error):
                 print("Failed to load images with error: \(error.localizedDescription)")
-            }
-
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
             }
         }
     }

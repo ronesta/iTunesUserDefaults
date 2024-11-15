@@ -10,14 +10,13 @@ import UIKit
 
 class StorageManager {
     static let shared = StorageManager()
-    private let albumsKey = "albumsKey"
     private let historyKey = "searchHistory"
     private init() {}
 
-    func saveCharacters(_ albums: [Album]) {
+    func saveAlbums(_ albums: [Album], for searchTerm: String) {
         do {
             let data = try JSONEncoder().encode(albums)
-            UserDefaults.standard.set(data, forKey: albumsKey)
+            UserDefaults.standard.set(data, forKey: searchTerm)
         } catch {
             print("Failed to encode characters: \(error)")
         }
@@ -35,8 +34,8 @@ class StorageManager {
         }
     }
 
-    func loadCharacters() -> [Album]? {
-        if let data = UserDefaults.standard.data(forKey: albumsKey) {
+    func loadAlbums(for searchTerm: String) -> [Album]? {
+        if let data = UserDefaults.standard.data(forKey: searchTerm) {
             do {
                 let albums = try JSONDecoder().decode([Album].self, from: data)
                 return albums
@@ -58,7 +57,11 @@ class StorageManager {
     }
 
     func clearAlbums() {
-        UserDefaults.standard.removeObject(forKey: albumsKey)
+        let history = getSearchHistory()
+        for term in history {
+            UserDefaults.standard.removeObject(forKey: term)
+        }
+        clearHistory()
     }
 
     func clearImage(key: String) {
